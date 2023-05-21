@@ -22,7 +22,11 @@ pipeline {
             }
        }
 
-
+        stage('Quality Gate Scanner') {
+            steps {
+               waitForQualityGate abortPipeline: true
+            }
+      }
 
 
         stage('push to nexus Artifactory') {
