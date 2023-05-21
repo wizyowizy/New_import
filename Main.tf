@@ -85,7 +85,7 @@ resource "aws_security_group" "allow_web" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    #cidr_blocks = ["${var.my_ip}/32"]
+    # cidr_blocks = ["${var.my_ip}/32"]
     cidr_blocks = ["0.0.0.0/0"]
 
   }
@@ -102,6 +102,24 @@ resource "aws_security_group" "allow_web" {
     description = "HTTP"
     from_port   = 8080
     to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+
+  ingress {
+    description = "HTTP"
+    from_port   = 8081
+    to_port     = 8081
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+
+  ingress {
+    description = "HTTP"
+    from_port   = 9000
+    to_port     = 9000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
 
@@ -123,7 +141,7 @@ resource "aws_security_group" "allow_web" {
 # Create the EC2 instance and assign key pair
 resource "aws_instance" "firstinstance" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
+  instance_type          = "t3.xlarge"
   vpc_security_group_ids = [aws_security_group.allow_web.id]
   subnet_id              = aws_subnet.prodsubnet1.id
   key_name               = "new_key_pair-ohio"
@@ -153,7 +171,36 @@ resource "aws_instance" "secondinstance" {
   }
 }
 
+resource "aws_instance" "thirdinstance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t3.xlarge"
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
+  subnet_id              = aws_subnet.prodsubnet1.id
+  key_name               = "new_key_pair-ohio"
+  availability_zone      = "us-east-2a"
+  
+  
 
+
+  tags = {
+    Name = "SonarQube_Server"
+  }
+}
+
+resource "aws_instance" "fourthinstance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t3.xlarge"
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
+  subnet_id              = aws_subnet.prodsubnet1.id
+  key_name               = "new_key_pair-ohio"
+  availability_zone      = "us-east-2a"
+  
+
+
+  tags = {
+    Name = "Nexus_Server"
+  }
+}
 # use data source to get a registered ubuntu ami
 data "aws_ami" "ubuntu" {
 
@@ -179,9 +226,21 @@ output "Jenkins_website_url" {
 }
 
 # print the url of the tomcat server
-output "Tomcat_website_url1" {
+output "Tomcat_website_url2" {
   value     = join ("", ["http://", aws_instance.secondinstance.public_ip, ":", "8080"])
   description = "Tomcat Server is secondinstance"
+}
+
+# print the url of the SonaQube server
+output "SonaQube_website_url3" {
+  value     = join ("", ["http://", aws_instance.thirdinstance.public_ip, ":", "9000"])
+  description = "SonaQube Server is thirdinstance"
+}
+
+# print the url of the Nexus server
+output "Nexus_website_url4" {
+  value     = join ("", ["http://", aws_instance.fourthinstance.public_ip, ":", "8081"])
+  description = "Nexus Server is fourthinstance"
 }
 
 
