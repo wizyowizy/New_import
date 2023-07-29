@@ -7,6 +7,7 @@ pipeline {
                 sh 'cd SampleWebApp mvn test'
             }
         }
+        
         stage('Build') {
             steps {
                 sh 'cd SampleWebApp && mvn clean package'
