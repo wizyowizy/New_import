@@ -1,4 +1,4 @@
-# Feb_cohorts_project
+# cohorts_project
 
 Mobile App you can purchase airtime
 send and receive money
