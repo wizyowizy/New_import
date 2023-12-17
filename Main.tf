@@ -85,7 +85,7 @@ resource "aws_security_group" "allow_web" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    # cidr_blocks = ["${var.my_ip}/32"]
+    #cidr_blocks = ["${var.my_ip}/32"]
     cidr_blocks = ["0.0.0.0/0"]
 
   }
@@ -108,7 +108,7 @@ resource "aws_security_group" "allow_web" {
   }
 
   ingress {
-    description = "HTTP"
+    description = "NEXUS"
     from_port   = 8081
     to_port     = 8081
     protocol    = "tcp"
@@ -117,7 +117,7 @@ resource "aws_security_group" "allow_web" {
   }
 
   ingress {
-    description = "HTTP"
+    description = "SONAR"
     from_port   = 9000
     to_port     = 9000
     protocol    = "tcp"
@@ -141,7 +141,7 @@ resource "aws_security_group" "allow_web" {
 # Create the EC2 instance and assign key pair
 resource "aws_instance" "firstinstance" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.xlarge"
+  instance_type          = "t2.large"
   vpc_security_group_ids = [aws_security_group.allow_web.id]
   subnet_id              = aws_subnet.prodsubnet1.id
   key_name               = "new_key_pair-ohio"
@@ -178,6 +178,7 @@ resource "aws_instance" "thirdinstance" {
   subnet_id              = aws_subnet.prodsubnet1.id
   key_name               = "new_key_pair-ohio"
   availability_zone      = "us-east-2a"
+  user_data              =  "${file("install_sonar.sh")}"
   
   
 
@@ -194,6 +195,8 @@ resource "aws_instance" "fourthinstance" {
   subnet_id              = aws_subnet.prodsubnet1.id
   key_name               = "new_key_pair-ohio"
   availability_zone      = "us-east-2a"
+  user_data              =  "${file("install_nexus.sh")}"
+  
   
 
 
@@ -201,6 +204,7 @@ resource "aws_instance" "fourthinstance" {
     Name = "Nexus_Server"
   }
 }
+
 # use data source to get a registered ubuntu ami
 data "aws_ami" "ubuntu" {
 
@@ -231,12 +235,11 @@ output "Tomcat_website_url2" {
   description = "Tomcat Server is secondinstance"
 }
 
-# print the url of the SonaQube server
-output "SonaQube_website_url3" {
+# print the url of the Sonarqube server
+output "Sonarqube_website_url3" {
   value     = join ("", ["http://", aws_instance.thirdinstance.public_ip, ":", "9000"])
-  description = "SonaQube Server is thirdinstance"
+  description = "Sonarqube Server is thirdinstance"
 }
-
 # print the url of the Nexus server
 output "Nexus_website_url4" {
   value     = join ("", ["http://", aws_instance.fourthinstance.public_ip, ":", "8081"])
