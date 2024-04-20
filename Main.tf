@@ -30,6 +30,7 @@ resource "aws_subnet" "prodsubnet1" {
   }
 }
 
+
 #Create the Internet Gateway and attach it to the VPC
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.prodvpc.id
