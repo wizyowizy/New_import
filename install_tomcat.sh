@@ -17,3 +17,4 @@ echo 'clearing screen...' && sleep 5
 clear
 echo 'tomcat is installed'
 sudo systemctl restart tomcat9
+
