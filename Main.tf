@@ -1,6 +1,6 @@
 # configured aws provider with proper credentials
 provider "aws" {
-  region     = "us-east-2"
+  region     = var.region
   profile    = "default"
 }
 
@@ -46,11 +46,6 @@ resource "aws_route_table" "prodroute" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.gw.id
-  }
-
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.gw.id
   }
 
   tags = {
@@ -99,7 +94,7 @@ resource "aws_security_group" "allow_web" {
 
   }
   ingress {
-    description = "HTTP"
+    description = "JENKINS & TOMCAT"
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
@@ -124,84 +119,17 @@ resource "aws_security_group" "allow_web" {
     cidr_blocks = ["0.0.0.0/0"]
 
   }
+  
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1" # Any ip address/ any protocol
     cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    
   }
 
   tags = {
     Name = "allow_tls"
-  }
-}
-
-
-# Create the EC2 instance and assign key pair
-resource "aws_instance" "firstinstance" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.large"
-  vpc_security_group_ids = [aws_security_group.allow_web.id]
-  subnet_id              = aws_subnet.prodsubnet1.id
-  key_name               = "new_key_pair-ohio"
-  availability_zone      = "us-east-2a"
-  user_data              =  "${file("install_jenkins.sh")}"
-
-
-  tags = {
-    Name = "Jenkins_Server"
-  }
-}
-
-
-resource "aws_instance" "secondinstance" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.allow_web.id]
-  subnet_id              = aws_subnet.prodsubnet1.id
-  key_name               = "new_key_pair-ohio"
-  availability_zone      = "us-east-2a"
-  user_data              =  "${file("install_tomcat.sh")}"
-  
-
-
-  tags = {
-    Name = "Tomcat_Server"
-  }
-}
-
-resource "aws_instance" "thirdinstance" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.xlarge"
-  vpc_security_group_ids = [aws_security_group.allow_web.id]
-  subnet_id              = aws_subnet.prodsubnet1.id
-  key_name               = "new_key_pair-ohio"
-  availability_zone      = "us-east-2a"
-  user_data              =  "${file("install_sonar.sh")}"
-  
-  
-
-
-  tags = {
-    Name = "SonarQube_Server"
-  }
-}
-
-resource "aws_instance" "fourthinstance" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.xlarge"
-  vpc_security_group_ids = [aws_security_group.allow_web.id]
-  subnet_id              = aws_subnet.prodsubnet1.id
-  key_name               = "new_key_pair-ohio"
-  availability_zone      = "us-east-2a"
-  user_data              =  "${file("install_nexus.sh")}"
-  
-  
-
-
-  tags = {
-    Name = "Nexus_Server"
   }
 }
 
@@ -223,10 +151,75 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
+# Create the EC2 instance and assign key pair
+resource "aws_instance" "firstinstance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.large"
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
+  subnet_id              = aws_subnet.prodsubnet1.id
+  key_name               = "ohio-KP"
+  availability_zone      = "us-east-2a"
+  user_data              =  "${file("install_jenkins.sh")}"
+
+
+  tags = {
+    Name = "Jenkins_Server"
+  }
+}
+
+
+resource "aws_instance" "secondinstance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
+  subnet_id              = aws_subnet.prodsubnet1.id
+  key_name               = "ohio-KP"
+  availability_zone      = "us-east-2a"
+  user_data              =  "${file("install_tomcat.sh")}"
+  
+
+
+  tags = {
+    Name = "Tomcat_Server"
+  }
+}
+
+resource "aws_instance" "thirdinstance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t3.xlarge"
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
+  subnet_id              = aws_subnet.prodsubnet1.id
+  key_name               = "ohio-KP"
+  availability_zone      = "us-east-2a"
+  user_data              =  "${file("install_sonar.sh")}"
+  
+
+
+  tags = {
+    Name = "SonarQube_Server"
+  }
+}
+
+resource "aws_instance" "fourthinstance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t3.xlarge"
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
+  subnet_id              = aws_subnet.prodsubnet1.id
+  key_name               = "ohio-KP"
+  availability_zone      = "us-east-2a"
+  user_data              =  "${file("install_nexus.sh")}"
+  
+
+
+  tags = {
+    Name = "Nexus_Server"
+  }
+}
+
 # print the url of the jenkins server
 output "Jenkins_website_url" {
   value     = join ("", ["http://", aws_instance.firstinstance.public_ip, ":", "8080"])
-  description = "Jenkins Server is firstinstance"
+  description = "Jenkins Server which is firstinstance from resource block"
 }
 
 # print the url of the tomcat server
@@ -234,6 +227,7 @@ output "Tomcat_website_url2" {
   value     = join ("", ["http://", aws_instance.secondinstance.public_ip, ":", "8080"])
   description = "Tomcat Server is secondinstance"
 }
+
 
 # print the url of the Sonarqube server
 output "Sonarqube_website_url3" {
@@ -245,9 +239,6 @@ output "Nexus_website_url4" {
   value     = join ("", ["http://", aws_instance.fourthinstance.public_ip, ":", "8081"])
   description = "Nexus Server is fourthinstance"
 }
-
-
-
 
 
 
