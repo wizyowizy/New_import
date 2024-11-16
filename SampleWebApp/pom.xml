@@ -7,6 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>SampleWebApp Maven Webapp</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -19,15 +20,15 @@
   <build>
     <finalName>SampleWebApp</finalName>
     <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-war-plugin</artifactId>
-      <version>3.3.1</version> <!-- or another stable version -->
-      <configuration>
-        <!-- You can specify a web.xml if needed -->
-        <webxml>src/main/webapp/WEB-INF/web.xml</webxml> <!-- Add a minimal or empty web.xml -->
-      </configuration>
-    </plugin>
-  </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <!-- Optional: Specify web.xml if you need it (if empty, create a minimal one as shown earlier) -->
+          <webxml>src/main/webapp/WEB-INF/web.xml</webxml>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
