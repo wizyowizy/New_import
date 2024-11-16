@@ -15,7 +15,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
     <finalName>SampleWebApp</finalName>
+    <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>3.3.1</version> <!-- or another stable version -->
+      <configuration>
+        <!-- You can specify a web.xml if needed -->
+        <webxml>src/main/webapp/WEB-INF/web.xml</webxml> <!-- Add a minimal or empty web.xml -->
+      </configuration>
+    </plugin>
+  </plugins>
   </build>
 </project>
