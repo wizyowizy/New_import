@@ -1,2 +1,3 @@
-my_ip="102.88.62.34" // replace 0.0.0.0 with your IP address
+my_ip="197.255.164.25" // replace with your static IP address
 region = "us-east-2"
+instance_name = "t2.micro"
