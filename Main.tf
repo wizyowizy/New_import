@@ -118,12 +118,11 @@ resource "aws_security_group" "allow_web" {
 
 # use data source to get a registered ubuntu ami
 data "aws_ami" "ubuntu" {
-
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
   filter {
@@ -131,8 +130,9 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"]
+  owners = ["099720109477"] # Canonical
 }
+
 
 # Create the EC2 instance and assign key pair
 resource "aws_instance" "firstinstance" {
@@ -180,3 +180,8 @@ output "Tomcat_website_url2" {
   value     = join ("", ["http://", aws_instance.secondinstance.public_ip, ":", "8080"])
   description = "Tomcat Server is secondinstance"
 }
+
+
+
+
+
