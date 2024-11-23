@@ -3,8 +3,8 @@
 #Create a Script to Automate the Installation of Jenkins on the EC2 Instance
 sudo apt-get update -y
 
-# Install Java SDK 11
-sudo apt-get install openjdk-11-jdk -y
+# Install Java SDK 17
+sudo apt-get install openjdk-17-jdk -y
 
 # Download and Install Jenkins
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
@@ -28,9 +28,9 @@ sudo apt install maven -y
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 
+
 # print jenkins Password
 echo 'clearing screen...' && sleep 5
 clear
 echo 'jenkins is installed'
 echo 'this is the default password :' $(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
-
