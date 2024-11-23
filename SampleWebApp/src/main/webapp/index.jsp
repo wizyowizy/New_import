@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title> Welcome to the java Musical project for the year 2024 </title>
+    <title> Welcome to the POM Java SpringBot project for the year 2024 </title>
   </head>
   <body bgcolor="#00FF00">
     <h1>This is RealCloud DevOps Expert Consults magical Form</h1>
