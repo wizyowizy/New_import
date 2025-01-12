@@ -1,9 +1,9 @@
 <html>
   <head>
-    <title> Welcome to the POM Java SpringBot project for the year 2024 </title>
+    <title> Welcome to the POM Java SpringBot project for the year 2025 </title>
   </head>
   <body bgcolor="#00FF00">
-    <h1>This is RealCloud DevOps Expert Consults POM Java Springbot 2024 Form</h1>
+    <h1>This is RealCloud DevOps Expert Java CLoud Springbot 2025 Application Form</h1>
     <!--Form declaration. Must have an action attribute -->
         <form action="C:/JonnyJava/FirstJava.html/profile.html" method="post">
             <p>Let us learn something about your web music lifestyle. </p> <!--This control is for mutplie line comment-->
@@ -13,8 +13,8 @@
                 <input type ="radio" name="genre" value="rock" checked="checked"/>Rock <br />
                 <input type ="radio" name="genre" value="pop"/>Pop <br />
                 <input type ="radio" name="genre" value="raggae"/>Reggae <br />
-                <input type ="radio" name="genre" value="jazz"/>Jazz <br />
-                <input type ="radio" name="genre" value="Afro Beat"/>Afro Beat <br />
+                <input type ="radio" name="genre" value="jass"/>Jass <br />
+                <input type ="radio" name="genre" value="AfroBeats"/>AfroBeats <br />
             </p>
 
             <p>select your favourite music service <br /> <!--Checkbox control-->
