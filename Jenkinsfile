@@ -15,8 +15,8 @@ pipeline {
         }
 
         stage('Quality Code Scan Analysis') {
-            steps {
-                script {
+        steps {
+            script {
             // Run SonarQube scan with the configured SonarQube server
                 withSonarQubeEnv('sonar-server') {
                 sh "mvn -f SampleWebApp/pom.xml sonar:sonar -Dsonar.java.options='--add-opens java.base/java.lang=ALL-UNNAMED'"
@@ -24,6 +24,7 @@ pipeline {
         }
     }
 }
+
 
 
         stage('Deploy to Tomcat Web Server') {
