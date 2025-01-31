@@ -10,7 +10,7 @@ pipeline {
         
         stage('Build & Compile') {
             steps {
-                sh 'cd SampleWebApp && mvn clean install'
+                sh 'cd SampleWebApp && mvn clean install -U'
             }
         }
 
