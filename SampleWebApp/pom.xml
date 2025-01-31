@@ -32,10 +32,10 @@
 
       <!-- Add the SonarQube plugin -->
       <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>4.6.2.2311</version> <!-- Consider upgrading to the latest version -->
-      </plugin>
+    <groupId>org.sonarsource.scanner.maven</groupId>
+    <artifactId>sonar-maven-plugin</artifactId>
+    <version>3.9.1.2184</version> <!-- This is a stable version -->
+    </plugin>
     </plugins>
   </build>
 
