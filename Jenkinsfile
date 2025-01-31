@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        SONARQUBE_SERVER = 'sonar-server'  // Set the name of your SonarQube server configuration
-    }
-
     stages {
         stage('Test') {
             steps {
@@ -21,13 +17,14 @@ pipeline {
         stage('Quality Code Scan Analysis') {
             steps {
                 script {
-                    // Run SonarQube scan with the configured SonarQube server
-                    withSonarQubeEnv(SONARQUBE_SERVER) {
-                        sh "mvn -f SampleWebApp/pom.xml sonar:sonar"
-                    }
-                }
+            // Run SonarQube scan with the configured SonarQube server
+                withSonarQubeEnv('sonar-server') {
+                sh "mvn -f SampleWebApp/pom.xml sonar:sonar -Dsonar.java.options='--add-opens java.base/java.lang=ALL-UNNAMED'"
             }
         }
+    }
+}
+
 
         stage('Deploy to Tomcat Web Server') {
             steps {
