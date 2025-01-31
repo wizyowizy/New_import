@@ -25,10 +25,22 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>3.3.1</version>
         <configuration>
-          <!-- Optional: Specify web.xml if you need it (if empty, create a minimal one as shown earlier) -->
+          <!-- Optional: Specify web.xml if you need it -->
           <webxml>src/main/webapp/WEB-INF/web.xml</webxml>
         </configuration>
       </plugin>
+
+      <!-- Add the SonarQube plugin -->
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>4.0.0.4121</version> <!-- Consider upgrading to the latest version -->
+      </plugin>
     </plugins>
   </build>
+
+  <!-- Optional: Add SonarQube properties if needed -->
+  <properties>
+    <sonar.host.url>http://localhost:9000</sonar.host.url> <!-- Change to your SonarQube server URL -->
+  </properties>
 </project>
