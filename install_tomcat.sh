@@ -20,7 +20,7 @@ sudo cat <<EOF >> /var/lib/tomcat9/conf/tomcat-users.xml
 <user username="admin" password="admin" roles="admin-gui,manager-gui"/>
 </tomcat-users>
 EOF
-sudo sed -i '44d' /var/lib/tomcat9/conf/tomcat-users.xml
+sudo sed -i '56d' /var/lib/tomcat9/conf/tomcat-users.xml
 echo 'clearing screen...' && sleep 5
 clear
 echo 'tomcat is installed'
