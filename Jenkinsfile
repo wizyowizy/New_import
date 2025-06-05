@@ -35,16 +35,14 @@ pipeline {
             }
         }
 
-        stage('Deploy to Tomcat Web Server') {
-            steps {
-                deploy adapters: [
-                    tomcat9(
-                        credentialsId: 'passwordtomcat2', 
-                        path: '', 
-                        url: 'http://52.14.197.116:8080/'
-                    )
-                ], contextPath: 'webapp', war: '"**/*.war"'
-            }
-        }
+       stage('Deploy to Tomcat Web Server') {
+    steps {
+        deploy adapters: [
+            tomcat9(
+                credentialsId: 'passwordtomcat2', 
+                path: '', 
+                url: 'http://52.14.197.116:8080/'
+            )
+        ], contextPath: 'webapp', war: 'SampleWebApp/target/SampleWebApp.war'
     }
 }
