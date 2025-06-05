@@ -43,6 +43,9 @@ pipeline {
                 path: '', 
                 url: 'http://52.14.197.116:8080/'
             )
-        ], contextPath: 'webapp', war: 'SampleWebApp/target/SampleWebApp.war'
+           )
+                ], contextPath: 'webapp', war: 'SampleWebApp/target/SampleWebApp.war'
+            }
+        }
     }
 }
