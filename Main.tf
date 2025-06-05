@@ -102,6 +102,14 @@ resource "aws_security_group" "allow_web" {
 
   }
 
+   ingress {
+    description = "SONAR"
+    from_port   = 9000
+    to_port     = 9000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
   
   egress {
     from_port        = 0
@@ -140,7 +148,7 @@ resource "aws_instance" "firstinstance" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_web.id]
   subnet_id              = aws_subnet.prodsubnet1.id
-  key_name               = "ohio-KP"
+  key_name               = "jenkinsKP"
   availability_zone      = "us-east-2a"
   user_data              =  "${file("install_jenkins.sh")}"
 
@@ -156,7 +164,7 @@ resource "aws_instance" "secondinstance" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_web.id]
   subnet_id              = aws_subnet.prodsubnet1.id
-  key_name               = "ohio-KP"
+  key_name               = "jenkinsKP"
   availability_zone      = "us-east-2a"
   user_data              =  "${file("install_tomcat.sh")}"
   
@@ -167,6 +175,21 @@ resource "aws_instance" "secondinstance" {
   }
 }
 
+resource "aws_instance" "thirdinstance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t3.xlarge"
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
+  subnet_id              = aws_subnet.prodsubnet1.id
+  key_name               = "jenkinsKP"
+  availability_zone      = "us-east-2a"
+  user_data              =  "${file("install_sonar.sh")}"
+  
+
+
+  tags = {
+    Name = "SonarQube_Server"
+  }
+}
 
 
 # print the url of the jenkins server
@@ -181,7 +204,11 @@ output "Tomcat_website_url2" {
   description = "Tomcat Server is secondinstance"
 }
 
-
+# print the url of the Sonarqube server
+output "Sonarqube_website_url3" {
+  value     = join ("", ["http://", aws_instance.thirdinstance.public_ip, ":", "9000"])
+  description = "Sonarqube Server is thirdinstance"
+}
 
 
 
