@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         MAVEN_OPTS = "--add-opens java.base/java.lang=ALL-UNNAMED"
     }
@@ -26,7 +26,6 @@ pipeline {
             }
         }
 
-
         stage('Quality Gate') {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
@@ -35,16 +34,15 @@ pipeline {
             }
         }
 
-       stage('Deploy to Tomcat Web Server') {
-    steps {
-        deploy adapters: [
-            tomcat9(
-                credentialsId: 'password_tomcat', 
-                path: '', 
-                url: 'http://52.14.197.116:8080/'
-            )
-           )
-                ], contextPath: 'webapp', war: 'SampleWebApp/target/SampleWebApp.war'
+        stage('Deploy to Tomcat Web Server') {
+            steps {
+                deploy adapters: [
+                    tomcat9(
+                        credentialsId: 'password_tomcat',
+                        path: '',
+                        url: 'http://18.116.89.10:8080/'
+                    )
+                ], contextPath: 'webapp', war: '**/*.war'
             }
         }
     }
